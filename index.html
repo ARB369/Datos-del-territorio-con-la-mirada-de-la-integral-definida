@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caudal del río Magdalena · Estación El Banco</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Spectral:wght@300;400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+<div class="envoltura">
+
+<header>
+  <h1>El área bajo el caudal es agua que pasó</h1>
+  <p class="estacion">Río Magdalena · Estación El Banco · 24 y 25 de agosto de 2026</p>
+  <p class="ficha">
+    <span>Departamento <b>Magdalena</b></span>
+    <span>Registros <b>6</b></span>
+    <span>Horarios <b>06:00 · 12:00 · 18:00</b></span>
+    <span>Caudal en <b>m³/s</b>, tiempo en <b>horas</b></span>
+  </p>
+</header>
+
+<section class="controles">
+  <div class="grupo">
+    <span id="rot-intervalo">Intervalo de integración</span>
+    <div class="opciones" role="group" aria-labelledby="rot-intervalo">
+      <button class="opcion" id="btn-primero" aria-pressed="true">Primer intervalo (0 a 6 h)</button>
+      <button class="opcion" id="btn-completo" aria-pressed="false">Intervalo completo (0 a 36 h)</button>
+    </div>
+  </div>
+  <div class="grupo">
+    <span id="rot-escala">Escala del eje vertical</span>
+    <div class="opciones" role="group" aria-labelledby="rot-escala">
+      <button class="opcion" id="btn-cero" aria-pressed="true">Desde 0</button>
+      <button class="opcion" id="btn-zoom" aria-pressed="false">Ampliada</button>
+    </div>
+  </div>
+</section>
+
+<div class="lienzo"><svg id="grafica" viewBox="0 0 860 470" role="img" aria-labelledby="titulo-svg"><title id="titulo-svg">Caudal del río Magdalena en la estación El Banco frente al tiempo transcurrido, con la región sombreada bajo los segmentos</title></svg></div>
+<p class="nota-grafica" id="nota-escala"></p>
+
+<section class="resultado">
+  <p class="rotulo" id="rotulo-resultado">Volumen del primer intervalo</p>
+  <p class="cifra"><span id="cifra">96.026.904</span><small>m³</small></p>
+  <p class="glosa" id="glosa"></p>
+</section>
+
+<h2>Planteamiento de la integral definida</h2>
+<div id="procedimiento"></div>
+
+<h2>Tabla 1. Registros de la estación elegida</h2>
+<div class="tabla-caja">
+  <table>
+    <caption>Datos originales tomados de la hoja filtrada. La simulación no los modifica.</caption>
+    <thead>
+      <tr><th scope="col">Fecha y hora</th><th scope="col">t (horas)</th><th scope="col">Caudal (m³/s)</th></tr>
+    </thead>
+    <tbody id="cuerpo-tabla1"></tbody>
+  </table>
+</div>
+
+<h2>Área por segmento</h2>
+<div class="tabla-caja">
+  <table>
+    <caption>Cada segmento aporta un trapecio. El volumen es la suma de los segmentos incluidos en el intervalo elegido.</caption>
+    <thead>
+      <tr><th scope="col">Segmento</th><th scope="col">Δt (h)</th><th scope="col">Área (m³/s · h)</th><th scope="col">Volumen (m³)</th></tr>
+    </thead>
+    <tbody id="cuerpo-segmentos"></tbody>
+    <tfoot><tr><td id="pie-rotulo">Total del intervalo</td><td></td><td id="pie-area"></td><td id="pie-vol"></td></tr></tfoot>
+  </table>
+</div>
+
+<details>
+  <summary>Comprobación con el cálculo manual del Momento 2</summary>
+  <p>El cálculo a mano del primer intervalo dio <b>96.026.904 m³</b>. La simulación integra el mismo segmento recto y obtiene <b id="chequeo">96.026.904 m³</b>, con una diferencia de <b id="diferencia">0 m³</b>. Los seis caudales y los seis tiempos que aparecen arriba son idénticos a los de la hoja filtrada, así que la coincidencia confirma que la simulación usa el mismo modelo lineal y el mismo factor de conversión de horas a segundos.</p>
+</details>
+
+<footer>Los segmentos rectos son un modelo del comportamiento del caudal entre registros: la integral se calcula de forma exacta sobre ese modelo, mientras que el volumen real del río sigue siendo una estimación.</footer>
+
+</div>
+
+<script src="simulador.js"></script>
+</body>
+</html>
